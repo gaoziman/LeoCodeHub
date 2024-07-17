@@ -1,0 +1,28 @@
+# 应用名称
+app.name: LeoCodeHub
+# 应用版本
+app.version: 1.0.0
+# 应用描述
+app.description: LeoCodeHub是一个基于Spring Boot的开源代码分享平台，致力于为程序员提供优质的编程资源。
+# 应用端口
+server.port: 8080
+
+spring:
+  # 配置数据源
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://180.188.45.71:3306/codehub?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: gzm2001..
+  profiles:
+    # 默认激活 dev 环境
+    active: dev
+
+#配置控制台打印日志Debug
+logging:
+  level:
+    org.javatop.usercenter.mapper: debug
+
+
+
+
