@@ -3,6 +3,8 @@ package org.leocoder.codehub.web;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 
 /**
@@ -12,6 +14,8 @@ import org.springframework.core.env.Environment;
  * @description : CodeHub启动类
  */
 @SpringBootApplication
+@ComponentScan({"org.leocoder.codehub.*"})
+@EnableAspectJAutoProxy
 public class CodeHubApplication {
     public static void main(String[] args) {
             ConfigurableApplicationContext context = SpringApplication.run(CodeHubApplication.class, args);
