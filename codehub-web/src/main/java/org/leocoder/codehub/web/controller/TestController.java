@@ -5,12 +5,8 @@ import org.leocoder.codehub.common.aspect.ApiOperationLog;
 import org.leocoder.codehub.common.exception.BizException;
 import org.leocoder.codehub.common.utils.Result;
 import org.leocoder.codehub.web.domain.User;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
 
 /**
  * @author : Leo
@@ -24,21 +20,10 @@ public class TestController {
 
     @PostMapping("/test")
     @ApiOperationLog(description = "测试接口")
-    public Result<String> test(@RequestBody @Validated User user, BindingResult bindingResult) {
+    public Result<User> test(@RequestBody @Validated User user) {
         // 返回用户信息测试
         log.info("user: {}", user);
-        // 是否存在校验错误
-        if (bindingResult.hasErrors()) {
-            log.error("bindingResult: {}", bindingResult.getAllErrors());
-            String errorMsg = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .collect(Collectors.joining(", "));
-
-            return Result.fail(errorMsg);
-        }
-        // 返回参数
-        return Result.success("参数没有任何问题");
+        return Result.success(user);
     }
 
 

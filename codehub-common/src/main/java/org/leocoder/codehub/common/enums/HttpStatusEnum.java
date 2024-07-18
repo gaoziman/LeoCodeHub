@@ -78,7 +78,9 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
     /**
      * 系统警告消息
      */
-    WARN(601,"系统警告消息");
+    WARN(601, "系统警告消息"),
+
+    PARAM_NOT_VALID(701,"参数校验失败");
 
     private final Integer code;
     private final String message;
