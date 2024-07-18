@@ -10,6 +10,10 @@ import org.leocoder.codehub.web.domain.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 /**
  * @author : Leo
  * @version 1.0
@@ -26,6 +30,11 @@ public class TestController {
     @ApiOperation(value = "测试接口")
     public Result<User> test(@RequestBody @Validated User user) {
         // 返回用户信息测试
+
+        // 设置三种日期字段值
+        user.setCreateTime(LocalDateTime.now());
+        user.setUpdateDate(LocalDate.now());
+        user.setTime(LocalTime.now());
         log.info("user: {}", user);
         return Result.success(user);
     }

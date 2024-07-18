@@ -8,6 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * @author : Leo
@@ -42,4 +45,12 @@ public class User {
     @NotNull(message = "邮箱不能为空")
     @Email(message = "邮箱格式不正确")
     private String email;
+
+
+    // 创建时间
+    private LocalDateTime createTime;
+    // 更新日期
+    private LocalDate updateDate;
+    // 时间
+    private LocalTime time;
 }
