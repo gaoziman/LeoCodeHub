@@ -10,7 +10,6 @@
         <version>${revision}</version>
     </parent>
 
-    <groupId>org.leocoder</groupId>
     <artifactId>codehub-web</artifactId>
     <name>codehub-web</name>
     <description>codehub-web (入口项目，负责博客前台展示相关功能，打包也放在这个模块负责)</description>
@@ -50,6 +49,12 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <!-- 参数校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 

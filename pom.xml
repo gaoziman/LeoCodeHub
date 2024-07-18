@@ -90,17 +90,6 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- AspectJ Runtime -->
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-            </dependency>
-            <!-- AspectJ Weaver -->
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

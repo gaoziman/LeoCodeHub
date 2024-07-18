@@ -10,7 +10,6 @@
         <version>${revision}</version>
     </parent>
 
-    <groupId>org.leocoder</groupId>
     <artifactId>codehub-admin</artifactId>
     <name>codehub-admin</name>
     <description>codehub-admin (负责管理后台相关功能)</description>
