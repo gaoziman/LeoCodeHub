@@ -48,6 +48,8 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <hutool.version>5.8.28</hutool.version>
         <jackson.version>2.15.2</jackson.version>
+ˆ        <knife4j.version>4.3.0</knife4j.version>
+
     </properties>
 
     <!-- 统一依赖管理 -->
@@ -89,6 +91,12 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <!-- knife4j（API 文档工具） -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

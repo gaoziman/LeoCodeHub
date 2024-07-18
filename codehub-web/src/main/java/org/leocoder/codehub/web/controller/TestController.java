@@ -1,5 +1,7 @@
 package org.leocoder.codehub.web.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.leocoder.codehub.common.aspect.ApiOperationLog;
 import org.leocoder.codehub.common.exception.BizException;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Slf4j
+@Api(tags = "测试接口")
 public class TestController {
 
     @PostMapping("/test")
     @ApiOperationLog(description = "测试接口")
+    @ApiOperation(value = "测试接口")
     public Result<User> test(@RequestBody @Validated User user) {
         // 返回用户信息测试
         log.info("user: {}", user);
