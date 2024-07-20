@@ -2,6 +2,9 @@ package org.leocoder.codehub.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.leocoder.codehub.common.mapper.UserMapper;
+import org.leocoder.codehub.common.model.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -13,6 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = CodeHubApplication.class)
 @Slf4j
 public class ApiTest {
+
+    @Autowired
+    private UserMapper userMapper;
+
 
     /**
      * 用于测试: 依赖是否正常
@@ -35,5 +42,16 @@ public class ApiTest {
         // 占位符
         String author = "程序员Leo";
         log.info("这是一行带有占位符日志，作者：{}", author);
+    }
+
+    /**
+     *  用于测试: 插入数据到数据库
+     */
+    @Test
+    public void test03() {
+        User user = new User();
+        user.setUsername("leo");
+        user.setPassword("123456");
+        userMapper.insert(user);
     }
 }
