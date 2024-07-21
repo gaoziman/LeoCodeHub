@@ -50,8 +50,8 @@ public class ApiTest {
     @Test
     public void test03() {
         User user = new User();
-        user.setUsername("leo");
-        user.setPassword("123456");
+        user.setUsername("leo22");
+        user.setPassword("12345622");
         userMapper.insert(user);
     }
 }
