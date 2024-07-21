@@ -1,9 +1,12 @@
 package org.leocoder.codehub.admin.config;
 
+import org.leocoder.codehub.jwt.config.JwtAuthenticationSecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 /**
  * @author : Leo
@@ -15,17 +18,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private JwtAuthenticationSecurityConfig jwtAuthenticationSecurityConfig;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
+        // 禁用 csrf
+        http.csrf().disable()
+                // 禁用表单登录
+                .formLogin().disable()
+                // 设置用户登录认证相关配置
+                .apply(jwtAuthenticationSecurityConfig)
+                .and()
+                .authorizeHttpRequests()
                 // 认证所有以 /admin 为前缀的 URL 资源
                 .mvcMatchers("/admin/**").authenticated()
                 // 其他都需要放行，无需认证
-                .anyRequest().permitAll().and()
-                // 使用表单登录
-                .formLogin().and()
-                // 使用 HTTP Basic 认证
-                .httpBasic();
-
+                .anyRequest().permitAll()
+                .and()
+                // 前后端分离，无需创建会话
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
