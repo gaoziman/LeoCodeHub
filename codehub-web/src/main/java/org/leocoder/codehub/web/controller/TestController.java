@@ -25,7 +25,7 @@ import java.time.LocalTime;
 @Api(tags = "测试接口")
 public class TestController {
 
-    @PostMapping("/test")
+    @PostMapping("/admin/test")
     @ApiOperationLog(description = "测试接口")
     @ApiOperation(value = "测试接口")
     public Result<User> test(@RequestBody @Validated User user) {

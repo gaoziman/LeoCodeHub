@@ -3,28 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.leocoder</groupId>
         <artifactId>codehub-springboot</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>codehub-admin</artifactId>
-    <name>codehub-admin</name>
-    <description>codehub-admin (负责管理后台相关功能)</description>
+    <artifactId>codehub-jwt</artifactId>
+    <name>codehub-jwt</name>
+    <description>codehub-jwt (JWT 模块，管理用户认证、鉴权)</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.leocoder</groupId>
-            <artifactId>codehub-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.leocoder</groupId>
-            <artifactId>codehub-jwt</artifactId>
-        </dependency>
-
         <!-- 免写冗余的 Java 样板式代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -39,22 +28,20 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Hutool 工具库 -->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
-
-        <!-- knife4j -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <groupId>org.leocoder</groupId>
+            <artifactId>codehub-jwt</artifactId>
         </dependency>
 
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 

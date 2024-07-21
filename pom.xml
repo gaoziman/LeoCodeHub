@@ -29,6 +29,7 @@
         <module>codehub-admin</module>
         <!-- 通用模块 -->
         <module>codehub-common</module>
+        <module>codehub-jwt</module>
     </modules>
 
 
@@ -65,6 +66,12 @@
             <dependency>
                 <groupId>org.leocoder</groupId>
                 <artifactId>codehub-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.leocoder</groupId>
+                <artifactId>codehub-jwt</artifactId>
                 <version>${revision}</version>
             </dependency>
 
