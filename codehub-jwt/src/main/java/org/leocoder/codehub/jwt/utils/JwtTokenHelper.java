@@ -40,6 +40,7 @@ public class JwtTokenHelper implements InitializingBean {
 
     /**
      * 解码配置文件中配置的 Base 64 编码 key 为秘钥
+     *
      * @param base64Key
      */
     @Value("${jwt.secret}")
@@ -50,6 +51,7 @@ public class JwtTokenHelper implements InitializingBean {
 
     /**
      * 初始化 JwtParser
+     *
      * @throws Exception
      */
     @Override
@@ -62,6 +64,7 @@ public class JwtTokenHelper implements InitializingBean {
 
     /**
      * 生成 Token
+     *
      * @param username
      * @return
      */
@@ -80,6 +83,7 @@ public class JwtTokenHelper implements InitializingBean {
 
     /**
      * 解析 Token
+     *
      * @param token
      * @return
      */
@@ -95,6 +99,7 @@ public class JwtTokenHelper implements InitializingBean {
 
     /**
      * 生成一个 Base64 的安全秘钥
+     *
      * @return
      */
     private static String generateBase64Key() {
@@ -105,6 +110,34 @@ public class JwtTokenHelper implements InitializingBean {
         String base64Key = Base64.getEncoder().encodeToString(secretKey.getEncoded());
 
         return base64Key;
+    }
+
+
+    /**
+     * 校验 Token 是否可用
+     *
+     * @param token
+     * @return
+     */
+    public void validateToken(String token) {
+        jwtParser.parseClaimsJws(token);
+    }
+
+    /**
+     * 解析 Token 获取用户名
+     *
+     * @param token
+     * @return
+     */
+    public String getUsernameByToken(String token) {
+        try {
+            Claims claims = jwtParser.parseClaimsJws(token).getBody();
+            String username = claims.getSubject();
+            return username;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void main(String[] args) {
