@@ -3,6 +3,7 @@ package org.leocoder.codehub.common.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
 import org.leocoder.codehub.common.utils.Result;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -104,4 +105,16 @@ public class GlobalExceptionHandler {
         return Result.fail(errorCode, errorMessage);
     }
 
+
+    /**
+     * 处理 AccessDeniedException 异常
+     * @param e exception
+     * @throws AccessDeniedException 异常
+     */
+    @ExceptionHandler({ AccessDeniedException.class })
+    public void throwAccessDeniedException(AccessDeniedException e) throws AccessDeniedException {
+        // 捕获到鉴权失败异常，主动抛出，交给 RestAccessDeniedHandler 去处理
+        log.info("============= 捕获到 AccessDeniedException");
+        throw e;
+    }
 }

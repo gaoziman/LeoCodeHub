@@ -82,7 +82,9 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
 
     PARAM_NOT_VALID(701,"参数校验失败"), USERNAME_OR_PWD_ERROR(20001, "用户名或密码错误"),
 
-    LOGIN_FAIL(20000, "登录失败,请稍后再试");
+    LOGIN_FAIL(20000, "登录失败,请稍后再试"),
+
+    FORBIDDEN_YAN(20004, "演示账号仅支持查询操作！");
 
     private final Integer code;
     private final String message;

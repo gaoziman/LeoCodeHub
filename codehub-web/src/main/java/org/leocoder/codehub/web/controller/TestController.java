@@ -7,6 +7,7 @@ import org.leocoder.codehub.common.aspect.ApiOperationLog;
 import org.leocoder.codehub.common.exception.BizException;
 import org.leocoder.codehub.common.utils.Result;
 import org.leocoder.codehub.web.domain.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,11 +57,11 @@ public class TestController {
         return true;
     }
 
-    @PutMapping("/update")
-    public boolean update(@RequestBody User user) {
-        //这里故意造成一个空指针的异常，并且不进行处理
-        String str = null;
-        str.equals("111");
-        return true;
+    @ApiOperationLog(description = "测试更新接口")
+    @PostMapping("/admin/update")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Result update() {
+        log.info("更新成功...");
+        return Result.success();
     }
 }
