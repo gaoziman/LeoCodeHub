@@ -84,7 +84,7 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
 
     LOGIN_FAIL(20000, "登录失败,请稍后再试"),
 
-    FORBIDDEN_YAN(20004, "演示账号仅支持查询操作！");
+    FORBIDDEN_YAN(20004, "演示账号仅支持查询操作！"), USERNAME_NOT_FOUND(20005, "用户名不存在！");
 
     private final Integer code;
     private final String message;
