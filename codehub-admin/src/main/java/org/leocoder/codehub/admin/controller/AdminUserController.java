@@ -2,6 +2,7 @@ package org.leocoder.codehub.admin.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leocoder.codehub.admin.model.vo.FindUserInfoRspVO;
 import org.leocoder.codehub.admin.model.vo.UpdateAdminUserPasswordReqVO;
 import org.leocoder.codehub.admin.service.AdminUserService;
 import org.leocoder.codehub.common.aspect.ApiOperationLog;
@@ -39,5 +40,17 @@ public class AdminUserController {
     @ApiOperationLog(description = "修改用户密码")
     public Result<String> updatePassword(@RequestBody @Validated UpdateAdminUserPasswordReqVO updateAdminUserPasswordReqVO) {
         return userService.updatePassword(updateAdminUserPasswordReqVO);
+    }
+
+    /**
+     * 获取登录用户信息
+     *
+     * @return Result
+     */
+    @PostMapping("/user/info")
+    @ApiOperation(value = "获取用户信息")
+    @ApiOperationLog(description = "获取用户信息")
+    public Result<FindUserInfoRspVO> getUserInfo() {
+        return userService.getUserInfo();
     }
 }

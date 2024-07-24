@@ -1,6 +1,7 @@
 package org.leocoder.codehub.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.leocoder.codehub.admin.model.vo.FindUserInfoRspVO;
 import org.leocoder.codehub.admin.model.vo.UpdateAdminUserPasswordReqVO;
 import org.leocoder.codehub.common.model.domain.User;
 import org.leocoder.codehub.common.utils.Result;
@@ -21,6 +22,15 @@ public interface AdminUserService extends IService<User> {
      * @return Result
      */
     Result<String> updatePassword(UpdateAdminUserPasswordReqVO updateAdminUserPasswordReqVO);
+
+
+
+    /**
+     * 获取登录用户信息
+     *
+     * @return Result
+     */
+    Result<FindUserInfoRspVO> getUserInfo();
 
 
 }
