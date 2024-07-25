@@ -2,8 +2,8 @@ package org.leocoder.codehub.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.leocoder.codehub.admin.model.vo.FindUserInfoRspVO;
-import org.leocoder.codehub.admin.model.vo.UpdateAdminUserPasswordReqVO;
+import org.leocoder.codehub.admin.model.vo.user.FindUserInfoRspVO;
+import org.leocoder.codehub.admin.model.vo.user.UpdateAdminUserPasswordReqVO;
 import org.leocoder.codehub.admin.service.AdminUserService;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
 import org.leocoder.codehub.common.mapper.UserMapper;

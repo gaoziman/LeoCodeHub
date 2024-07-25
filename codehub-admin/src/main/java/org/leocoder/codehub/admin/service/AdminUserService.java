@@ -1,8 +1,8 @@
 package org.leocoder.codehub.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.leocoder.codehub.admin.model.vo.FindUserInfoRspVO;
-import org.leocoder.codehub.admin.model.vo.UpdateAdminUserPasswordReqVO;
+import org.leocoder.codehub.admin.model.vo.user.FindUserInfoRspVO;
+import org.leocoder.codehub.admin.model.vo.user.UpdateAdminUserPasswordReqVO;
 import org.leocoder.codehub.common.model.domain.User;
 import org.leocoder.codehub.common.utils.Result;
 

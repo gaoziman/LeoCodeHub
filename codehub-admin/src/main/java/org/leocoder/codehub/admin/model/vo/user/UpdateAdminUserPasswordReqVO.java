@@ -1,4 +1,4 @@
-package org.leocoder.codehub.admin.model.vo;
+package org.leocoder.codehub.admin.model.vo.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

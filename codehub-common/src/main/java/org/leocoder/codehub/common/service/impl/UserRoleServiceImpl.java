@@ -1,8 +1,6 @@
 package org.leocoder.codehub.common.service.impl;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.leocoder.codehub.common.mapper.UserRoleMapper;
 import org.leocoder.codehub.common.model.domain.UserRole;

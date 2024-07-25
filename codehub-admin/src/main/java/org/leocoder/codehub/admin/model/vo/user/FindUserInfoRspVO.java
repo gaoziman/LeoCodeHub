@@ -1,4 +1,4 @@
-package org.leocoder.codehub.admin.model.vo;
+package org.leocoder.codehub.admin.model.vo.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

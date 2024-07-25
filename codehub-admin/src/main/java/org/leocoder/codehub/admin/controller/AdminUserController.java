@@ -2,8 +2,8 @@ package org.leocoder.codehub.admin.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.leocoder.codehub.admin.model.vo.FindUserInfoRspVO;
-import org.leocoder.codehub.admin.model.vo.UpdateAdminUserPasswordReqVO;
+import org.leocoder.codehub.admin.model.vo.user.FindUserInfoRspVO;
+import org.leocoder.codehub.admin.model.vo.user.UpdateAdminUserPasswordReqVO;
 import org.leocoder.codehub.admin.service.AdminUserService;
 import org.leocoder.codehub.common.aspect.ApiOperationLog;
 import org.leocoder.codehub.common.utils.Result;
