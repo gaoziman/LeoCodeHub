@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leocoder.codehub.common.mapper.BlogSettingMapper">
+  <resultMap id="BaseResultMap" type="org.leocoder.codehub.common.model.domain.BlogSetting">
+    <!--@mbg.generated-->
+    <!--@Table t_blog_settings-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="github_homepage" jdbcType="VARCHAR" property="githubHomepage" />
+    <result column="csdn_homepage" jdbcType="VARCHAR" property="csdnHomepage" />
+    <result column="gitee_homepage" jdbcType="VARCHAR" property="giteeHomepage" />
+    <result column="zhihu_homepage" jdbcType="VARCHAR" property="zhihuHomepage" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, logo, `name`, author, introduction, avatar, github_homepage, csdn_homepage, gitee_homepage, 
+    zhihu_homepage
+  </sql>
+</mapper>
