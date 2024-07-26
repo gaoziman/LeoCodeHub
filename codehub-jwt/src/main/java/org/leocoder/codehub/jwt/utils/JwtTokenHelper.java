@@ -38,6 +38,13 @@ public class JwtTokenHelper implements InitializingBean {
      */
     private JwtParser jwtParser;
 
+
+    /**
+     * Token 过期时间（分钟）
+     */
+    @Value("${jwt.expiration}")
+    private long expiration;
+
     /**
      * 解码配置文件中配置的 Base 64 编码 key 为秘钥
      *
@@ -70,8 +77,8 @@ public class JwtTokenHelper implements InitializingBean {
      */
     public String generateToken(String username) {
         LocalDateTime now = LocalDateTime.now();
-        // Token 一个小时后失效
-        LocalDateTime expireTime = now.plusHours(1);
+        // Token 在配置的时间后失效
+        LocalDateTime expireTime = now.plusMinutes(expiration);
 
         return Jwts.builder().setSubject(username)
                 .setIssuer(issuer)
