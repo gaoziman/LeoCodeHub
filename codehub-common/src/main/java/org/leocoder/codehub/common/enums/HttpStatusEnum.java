@@ -47,15 +47,20 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
     WARN(601, "系统警告消息"),
 
     PARAM_NOT_VALID(701,"参数校验失败"),
+ˆ
     USERNAME_OR_PWD_ERROR(20001, "用户名或密码错误"),
 
     LOGIN_FAIL(20000, "登录失败,请稍后再试"),
 
     FORBIDDEN_YAN(20004, "演示账号仅支持查询操作！"),
+
     USERNAME_NOT_FOUND(20005, "用户名不存在！"),
 
     CATEGORY_NAME_IS_EXISTED(20006, "该分类已存在，请勿重复添加！"),
-    CATEGORY_NAME_NOT_EXISTED(20007,"该分类不存在！" );
+
+    CATEGORY_NAME_NOT_EXISTED(20007,"该分类不存在！" ),
+
+    FILE_UPLOAD_FAILED(20008, "文件上传失败！");
 
     private final Integer code;
     private final String message;
