@@ -10,7 +10,7 @@ import org.leocoder.codehub.admin.model.vo.category.req.DeleteCategoryReqVO;
 import org.leocoder.codehub.admin.model.vo.category.req.FindCategoryPageListReqVO;
 import org.leocoder.codehub.admin.model.vo.category.req.UpdateCategoryReqVO;
 import org.leocoder.codehub.admin.model.vo.category.resp.FindCategoryPageListRspVO;
-import org.leocoder.codehub.admin.service.CategoryService;
+import org.leocoder.codehub.admin.service.AdminCategoryService;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
 import org.leocoder.codehub.common.exception.BizException;
 import org.leocoder.codehub.common.mapper.CategoryMapper;
@@ -37,7 +37,7 @@ import static org.leocoder.codehub.common.utils.Result.success;
 
 @Service
 @Slf4j
-public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
+public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements AdminCategoryService {
 
 
     /**

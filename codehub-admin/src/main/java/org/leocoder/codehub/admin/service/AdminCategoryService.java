@@ -19,7 +19,7 @@ import java.util.List;
  * @description :
  */
 
-public interface CategoryService extends IService<Category> {
+public interface AdminCategoryService extends IService<Category> {
 
 
     /**

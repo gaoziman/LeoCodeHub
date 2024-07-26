@@ -6,7 +6,7 @@ import org.leocoder.codehub.admin.model.vo.category.req.AddCategoryReqVO;
 import org.leocoder.codehub.admin.model.vo.category.req.DeleteCategoryReqVO;
 import org.leocoder.codehub.admin.model.vo.category.req.FindCategoryPageListReqVO;
 import org.leocoder.codehub.admin.model.vo.category.req.UpdateCategoryReqVO;
-import org.leocoder.codehub.admin.service.CategoryService;
+import org.leocoder.codehub.admin.service.AdminCategoryService;
 import org.leocoder.codehub.common.aspect.ApiOperationLog;
 import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
@@ -26,9 +26,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/category")
 @Api(tags = "Admin 分类模块")
-public class CategoryController {
+public class AdminCategoryController {
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
 
     /**
