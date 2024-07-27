@@ -60,7 +60,9 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
 
     CATEGORY_NAME_NOT_EXISTED(20007,"该分类不存在！" ),
 
-    FILE_UPLOAD_FAILED(20008, "文件上传失败！");
+    FILE_UPLOAD_FAILED(20008, "文件上传失败！"),
+
+    TAG_NOT_EXISTED(20009, "标签不存在！" );
 
     private final Integer code;
     private final String message;
