@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leocoder.codehub.common.mapper.ArticleCategoryRelMapper">
+  <resultMap id="BaseResultMap" type="org.leocoder.codehub.common.model.domain.ArticleCategoryRel">
+    <!--@mbg.generated-->
+    <!--@Table t_article_category_rel-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, article_id, category_id
+  </sql>
+</mapper>

@@ -27,4 +27,9 @@ public class MybatisPlusConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
+
+    @Bean
+    public InsertBatchSqlInjector insertBatchSqlInjector() {
+        return new InsertBatchSqlInjector();
+    }
 }

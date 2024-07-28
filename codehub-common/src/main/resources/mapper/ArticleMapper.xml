@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leocoder.codehub.common.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="org.leocoder.codehub.common.model.domain.Article">
+    <!--@mbg.generated-->
+    <!--@Table t_article-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="read_num" jdbcType="INTEGER" property="readNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, title, cover, summary, create_time, update_time, is_deleted, read_num
+  </sql>
+</mapper>
