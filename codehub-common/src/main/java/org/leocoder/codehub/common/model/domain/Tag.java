@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-import org.mapstruct.Mapper;
 
 import java.util.Date;
 
@@ -18,7 +17,6 @@ import java.util.Date;
  * @date 2024-07-27 01:54
  * @description : 标签实体类
  */
-@Mapper
 @ApiModel(description="标签实体类表")
 @Data
 @Builder

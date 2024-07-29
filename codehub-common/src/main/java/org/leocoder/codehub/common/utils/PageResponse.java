@@ -2,6 +2,7 @@ package org.leocoder.codehub.common.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
+import org.leocoder.codehub.common.enums.HttpStatusEnum;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,8 @@ public class PageResponse<T> extends Result<List<T>> {
     public static <T> PageResponse<T> success(IPage page, List<T> data) {
         PageResponse<T> response = new PageResponse<>();
         response.setStatus(true);
+        response.setCode(HttpStatusEnum.SUCCESS.getCode());
+        response.setMessage(HttpStatusEnum.SUCCESS.getMessage());
         response.setPageNum(Objects.isNull(page) ? 1L : page.getCurrent());
         response.setPageSize(Objects.isNull(page) ? 5L : page.getSize());
         response.setPages(Objects.isNull(page) ? 0L : page.getPages());
