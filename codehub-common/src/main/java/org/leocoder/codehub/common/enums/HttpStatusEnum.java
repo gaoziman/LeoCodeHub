@@ -66,7 +66,9 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
 
     CATEGORY_NOT_EXISTED(30001, "提交的分类不存在！"),
 
-    ARTICLE_PUBLISH_SUCCESS(20010, "文章发布成功, 请等待管理员审核！");
+    ARTICLE_PUBLISH_SUCCESS(20010, "文章发布成功, 请等待管理员审核！"),
+
+    ARTICLE_NOT_FOUND(20011, "文章不存在！");
 
     private final Integer code;
     private final String message;

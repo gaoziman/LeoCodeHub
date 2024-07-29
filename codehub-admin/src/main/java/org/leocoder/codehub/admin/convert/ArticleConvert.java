@@ -1,9 +1,12 @@
 package org.leocoder.codehub.admin.convert;
 
 import org.leocoder.codehub.admin.model.vo.article.PublishArticleReqVO;
+import org.leocoder.codehub.admin.model.vo.article.resp.FindArticlePageListRspVO;
 import org.leocoder.codehub.common.model.domain.Article;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author : Leo
@@ -26,4 +29,12 @@ public interface ArticleConvert {
      * @return 实体类对象
      */
     Article convertVOToEntity(PublishArticleReqVO publishArticleReqVO);
+
+
+    /**
+     * 将 实体类转换为出参对象
+     * @param articleList 集合对象
+     * @return 返回参数对象
+     */
+    List<FindArticlePageListRspVO> convertentityToRspVO(List<Article> articleList);
 }
