@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiOperation;
 import org.leocoder.codehub.admin.model.vo.tag.req.AddTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.DeleteTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.FindTagPageListReqVO;
+import org.leocoder.codehub.admin.model.vo.tag.req.SearchBlurTagReqVO;
 import org.leocoder.codehub.admin.service.AdminTagService;
 import org.leocoder.codehub.common.aspect.ApiOperationLog;
+import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
 import org.leocoder.codehub.common.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author : Leo
  * @version 1.0
@@ -23,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description : Admin 标签模块
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/tag")
 @Api(tags = "Admin 标签模块")
 public class AdminTagController {
 
@@ -37,7 +41,7 @@ public class AdminTagController {
      * @param addTagReqVO addTagReqVO
      * @return Result
      */
-    @PostMapping("/tag/add")
+    @PostMapping("/add")
     @ApiOperation(value = "添加标签")
     @ApiOperationLog(description = "添加标签")
     public Result addTags(@RequestBody @Validated AddTagReqVO addTagReqVO) {
@@ -51,7 +55,7 @@ public class AdminTagController {
      * @param findTagPageListReqVO findTagPageListReqVO
      * @return PageResponse
      */
-    @PostMapping("/tag/list")
+    @PostMapping("/list")
     @ApiOperation(value = "标签分页数据获取")
     @ApiOperationLog(description = "标签分页数据获取")
     public PageResponse findTagPageList(@RequestBody @Validated FindTagPageListReqVO findTagPageListReqVO) {
@@ -65,20 +69,38 @@ public class AdminTagController {
      * @param deleteTagReqVO deleteTagReqVO
      * @return Result
      */
-    @PostMapping("/tag/delete")
+    @PostMapping("/delete")
     @ApiOperation(value = "删除标签")
     @ApiOperationLog(description = "删除标签")
     public Result deleteTag(@RequestBody @Validated DeleteTagReqVO deleteTagReqVO) {
         return tagService.deleteTag(deleteTagReqVO);
     }
 
-    // @PostMapping("/category/select/list")
-    // @ApiOperation(value = "分类 Select 下拉列表数据获取")
-    // @ApiOperationLog(description = "分类 Select 下拉列表数据获取")
-    // public Response findCategorySelectList() {
-    //     return categoryService.findCategorySelectList();
-    // }
+
+    /**
+     * 标签select模糊查询
+     *
+     * @param searchBlurTagReqVO searchBlurTagReqVO
+     * @return Result
+     */
+    @PostMapping("/search")
+    @ApiOperation(value = "标签select模糊查询")
+    @ApiOperationLog(description = "标签select模糊查询")
+    public Result<List<SelectRspVO>> findCategorySelectList(@RequestBody @Validated SearchBlurTagReqVO searchBlurTagReqVO) {
+        return tagService.findBlurTagList(searchBlurTagReqVO);
+    }
 
 
+    /**
+     * 获取标签 Select 下拉列表数据
+     *
+     * @return Result
+     */
+    @PostMapping("/select/list")
+    @ApiOperation(value = "查询标签 Select 列表数据")
+    @ApiOperationLog(description = "查询标签 Select 列表数据")
+    public Result<List<SelectRspVO>> findTagSelectList() {
+        return tagService.findTagSelectList();
+    }
 }
 

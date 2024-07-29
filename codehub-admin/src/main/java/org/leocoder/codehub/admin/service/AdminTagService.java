@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.leocoder.codehub.admin.model.vo.tag.req.AddTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.DeleteTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.FindTagPageListReqVO;
+import org.leocoder.codehub.admin.model.vo.tag.req.SearchBlurTagReqVO;
 import org.leocoder.codehub.common.model.domain.Tag;
+import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
 import org.leocoder.codehub.common.utils.Result;
+
+import java.util.List;
 
 /**
  * @author : Leo
@@ -41,4 +45,23 @@ public interface AdminTagService  extends IService<Tag> {
      * @return Result
      */
     Result deleteTag(DeleteTagReqVO deleteTagReqVO);
+
+
+    /**
+     * 标签select模糊查询
+     *
+     * @param searchBlurTagReqVO searchBlurTagReqVO
+     * @return Result
+     */
+    Result<List<SelectRspVO>> findBlurTagList(SearchBlurTagReqVO searchBlurTagReqVO);
+
+
+    /**
+     * 获取标签 Select 下拉列表数据
+     *
+     * @return Result
+     */
+    Result<List<SelectRspVO>> findTagSelectList();
+
+
 }

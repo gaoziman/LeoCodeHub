@@ -30,8 +30,8 @@ import static org.leocoder.codehub.common.utils.Result.success;
 
 /**
  * @author : Leo
- * @date  2024-07-25 15:37
  * @version 1.0
+ * @date 2024-07-25 15:37
  * @description :
  */
 
@@ -42,6 +42,7 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
 
     /**
      * 获取分类分页数据
+     *
      * @param findCategoryPageListReqVO 分类分页查询条件
      * @return PageResponse
      */
@@ -59,12 +60,13 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
         String name = findCategoryPageListReqVO.getName();
         LocalDate startDate = findCategoryPageListReqVO.getStartDate();
         LocalDate endDate = findCategoryPageListReqVO.getEndDate();
-                // 名称模糊查询
+        // 名称模糊查询
         wrapper.like(Category::getName, name)
                 // 大于等于 startDate
                 .ge(Objects.nonNull(startDate), Category::getCreateTime, startDate)
-                 // 小于等于 endDate
-                .le(Objects.nonNull(endDate), Category::getCreateTime, endDate);
+                // 小于等于 endDate
+                .le(Objects.nonNull(endDate), Category::getCreateTime, endDate)
+                .orderByDesc(Category::getCreateTime);
 
         // 查询分页数据
         Page<Category> categoryPage = baseMapper.selectPage(page, wrapper);
@@ -87,6 +89,7 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
 
     /**
      * 获取分类 Select 下拉列表数据
+     *
      * @return Result
      */
     @Override
@@ -146,7 +149,6 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
         String newCategoryName = updateCategoryReqVO.getName();
 
 
-
         // 查询是否存在
         Category category = baseMapper.selectById(categoryId);
         if (category == null) {
@@ -156,7 +158,7 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
         // 检查新名称是否已存在于其他记录
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<Category>()
                 .eq(Category::getName, newCategoryName)
-                  // 排除当前记录
+                // 排除当前记录
                 .ne(Category::getId, categoryId);
         Category existingCategory = baseMapper.selectOne(queryWrapper);
         if (existingCategory != null) {
@@ -183,12 +185,11 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
     }
 
 
-
-
     /**
      * 删除分类
+     *
      * @param deleteCategoryReqVO 分类信息
-     * @return  Result
+     * @return Result
      */
     @Override
     public Result deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {

@@ -1,5 +1,6 @@
 package org.leocoder.codehub.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,11 +9,13 @@ import org.leocoder.codehub.admin.convert.TagConvert;
 import org.leocoder.codehub.admin.model.vo.tag.req.AddTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.DeleteTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.req.FindTagPageListReqVO;
+import org.leocoder.codehub.admin.model.vo.tag.req.SearchBlurTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.resp.FindTagPageListRspVO;
 import org.leocoder.codehub.admin.service.AdminTagService;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
 import org.leocoder.codehub.common.mapper.TagMapper;
 import org.leocoder.codehub.common.model.domain.Tag;
+import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
 import org.leocoder.codehub.common.utils.Result;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author : Leo
@@ -111,4 +115,61 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
 
         return count == 1 ? Result.success() : Result.fail(HttpStatusEnum.TAG_NOT_EXISTED);
     }
+
+
+    /**
+     * 标签select模糊查询
+     *
+     * @param searchBlurTagReqVO searchBlurTagReqVO
+     * @return Result
+     */
+    @Override
+    public Result<List<SelectRspVO>> findBlurTagList(SearchBlurTagReqVO searchBlurTagReqVO) {
+        String key = searchBlurTagReqVO.getKey();
+
+        // 构建查询条件
+        LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(Tag::getName, key)
+               .orderByDesc(Tag::getCreateTime);
+
+        // 查询标签列表
+        List<Tag> tagList = baseMapper.selectList(wrapper);
+
+        // 封装分类 Select 下拉列表数据
+        List<SelectRspVO> selectTagList = null;
+        if (tagList != null && !tagList.isEmpty()) {
+            selectTagList = tagList.stream()
+                    .map(tag -> SelectRspVO.builder()
+                            .label(tag.getName())
+                            .value(tag.getId())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        return Result.success(selectTagList);
+    }
+
+
+    /**
+     * 获取标签 Select 下拉列表数据
+     *
+     * @return Result
+     */
+    @Override
+    public Result<List<SelectRspVO>> findTagSelectList() {
+        // 查询标签列表
+        List<Tag> tagList = baseMapper.selectList(null);
+        // 封装分类 Select 下拉列表数据
+        List<SelectRspVO> selectTagList = null;
+        if (tagList != null && !tagList.isEmpty()) {
+            selectTagList =  tagList.stream()
+                    .map(tag -> SelectRspVO.builder()
+                            .label(tag.getName())
+                            .value(tag.getId())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        return Result.success(selectTagList);
+    }
+
+
 }
