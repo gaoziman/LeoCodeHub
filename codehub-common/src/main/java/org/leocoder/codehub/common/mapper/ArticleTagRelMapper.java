@@ -39,4 +39,18 @@ public interface ArticleTagRelMapper extends InsertBatchMapper<ArticleTagRel> {
         wrapper.eq(ArticleTagRel::getArticleId, articleId);
         return this.selectList(wrapper);
     }
+
+
+    /**
+     * 根据标签 ID 查询
+     * @param tagId 标签 ID
+     * @return 文章标签关系
+     */
+    default ArticleTagRel selectOneByTagId(Long tagId) {
+        LambdaQueryWrapper<ArticleTagRel> wrapper = new LambdaQueryWrapper<>();
+        wrapper
+                .eq(ArticleTagRel::getTagId, tagId)
+                .last("LIMIT 1");
+        return this.selectOne(wrapper);
+    }
 }

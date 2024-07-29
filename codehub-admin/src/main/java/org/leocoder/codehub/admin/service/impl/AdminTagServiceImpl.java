@@ -13,11 +13,15 @@ import org.leocoder.codehub.admin.model.vo.tag.req.SearchBlurTagReqVO;
 import org.leocoder.codehub.admin.model.vo.tag.resp.FindTagPageListRspVO;
 import org.leocoder.codehub.admin.service.AdminTagService;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
+import org.leocoder.codehub.common.exception.BizException;
+import org.leocoder.codehub.common.mapper.ArticleTagRelMapper;
 import org.leocoder.codehub.common.mapper.TagMapper;
+import org.leocoder.codehub.common.model.domain.ArticleTagRel;
 import org.leocoder.codehub.common.model.domain.Tag;
 import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
 import org.leocoder.codehub.common.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +40,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements AdminTagService {
+
+
+    @Autowired
+    private ArticleTagRelMapper articleTagRelMapper;
 
 
     /**
@@ -109,6 +117,14 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
     public Result deleteTag(DeleteTagReqVO deleteTagReqVO) {
         // 标签 ID
         Long tagId = deleteTagReqVO.getId();
+
+        // 校验该分类下是否已经有文章，若有，则提示需要先删除分类下所有文章，才能删除
+        ArticleTagRel articleTagRel = articleTagRelMapper.selectOneByTagId(tagId);
+
+        if (Objects.nonNull(articleTagRel)){
+            log.warn("==> 此标签下包含文章，无法删除，tagId: {}", tagId);
+            throw new BizException(HttpStatusEnum.CATEGORY_CAN_NOT_DELETE_TAG);
+        }
 
         // 根据标签 ID 删除
         int count = baseMapper.deleteById(tagId);

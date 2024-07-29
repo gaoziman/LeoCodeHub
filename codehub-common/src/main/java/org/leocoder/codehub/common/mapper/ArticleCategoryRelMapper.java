@@ -37,4 +37,18 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRel>
         wrapper.eq(ArticleCategoryRel::getArticleId, articleId);
         return this.selectOne(wrapper);
     }
+
+    /**
+     * 根据分类ID 查询
+     *
+     * @param categoryId  分类ID
+     * @return 文章分类关系
+     */
+    default ArticleCategoryRel selectOneByCategoryId(Long categoryId) {
+        LambdaQueryWrapper<ArticleCategoryRel> wrapper = new LambdaQueryWrapper<>();
+        wrapper
+                .eq(ArticleCategoryRel::getCategoryId, categoryId)
+                .last("LIMIT 1");
+        return this.selectOne(wrapper);
+    }
 }

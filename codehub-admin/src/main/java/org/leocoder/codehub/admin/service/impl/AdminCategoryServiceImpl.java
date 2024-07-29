@@ -13,11 +13,14 @@ import org.leocoder.codehub.admin.model.vo.category.resp.FindCategoryPageListRsp
 import org.leocoder.codehub.admin.service.AdminCategoryService;
 import org.leocoder.codehub.common.enums.HttpStatusEnum;
 import org.leocoder.codehub.common.exception.BizException;
+import org.leocoder.codehub.common.mapper.ArticleCategoryRelMapper;
 import org.leocoder.codehub.common.mapper.CategoryMapper;
+import org.leocoder.codehub.common.model.domain.ArticleCategoryRel;
 import org.leocoder.codehub.common.model.domain.Category;
 import org.leocoder.codehub.common.model.vo.SelectRspVO;
 import org.leocoder.codehub.common.utils.PageResponse;
 import org.leocoder.codehub.common.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,6 +41,9 @@ import static org.leocoder.codehub.common.utils.Result.success;
 @Service
 @Slf4j
 public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements AdminCategoryService {
+
+    @Autowired
+    private ArticleCategoryRelMapper articleCategoryRelMapper;
 
 
     /**
@@ -195,6 +201,15 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
     public Result deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {
         // 分类 ID
         Long categoryId = deleteCategoryReqVO.getId();
+
+        // 校验该分类下是否已经有文章，若有，则提示需要先删除分类下所有文章，才能删除
+        ArticleCategoryRel articleCategoryRel = articleCategoryRelMapper.selectOneByCategoryId(categoryId);
+
+        if (Objects.nonNull(articleCategoryRel)){
+            log.warn("==> 此分类下包含文章，无法删除，categoryId: {}", categoryId);
+            throw new BizException(HttpStatusEnum.CATEGORY_CAN_NOT_DELETE_ARTICLE);
+        }
+
         // 删除分类
         baseMapper.deleteById(categoryId);
 

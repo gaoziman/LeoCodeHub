@@ -68,7 +68,11 @@ public enum HttpStatusEnum implements BaseExceptionInterface {
 
     ARTICLE_PUBLISH_SUCCESS(20010, "文章发布成功, 请等待管理员审核！"),
 
-    ARTICLE_NOT_FOUND(20011, "文章不存在！");
+    ARTICLE_NOT_FOUND(20011, "文章不存在！"),
+
+    CATEGORY_CAN_NOT_DELETE_ARTICLE(20012, "该分类下存在文章，不能删除！"),
+
+    CATEGORY_CAN_NOT_DELETE_TAG(20013, "该标签下存在文章，不能删除！") ;
 
     private final Integer code;
     private final String message;
