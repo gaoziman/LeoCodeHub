@@ -1,8 +1,6 @@
 package org.leocoder.codehub.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -153,21 +151,8 @@ public class AdminArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         Long pageSize = findArticlePageListReqVO.getPageSize();
 
 
-        // 分页对象(查询第几页、每页多少数据)
-        Page<Article> page = new Page<>(pageNum, pageSize);
-
-        // 构造查询条件
-        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
-        // 标题模糊查询
-        wrapper.like(StringUtils.isNotBlank(title), Article::getTitle, title)
-                // 大于等于创建时间
-                .ge(Objects.nonNull(startDate), Article::getCreateTime, startDate)
-                // 小于等于创建时间
-                .le(Objects.nonNull(endDate), Article::getCreateTime, endDate)
-                .orderByDesc(Article::getCreateTime);
-
-        // 查询数据
-        Page<Article> articlePage = baseMapper.selectPage(page, wrapper);
+        // 构建查询条件
+        Page<Article> articlePage = baseMapper.selectPageList(pageNum, pageSize, title, startDate, endDate);
         List<Article> articleList = articlePage.getRecords();
 
         // 转换对象
@@ -256,7 +241,7 @@ public class AdminArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
             }
             // 先删除该文章关联的分类记录，再插入新的关联关系
             articleCategoryRelMapper.deleteByArticleId(articleId);
-            ArticleCategoryRel  articleCategoryRel = ArticleCategoryRel.builder()
+            ArticleCategoryRel articleCategoryRel = ArticleCategoryRel.builder()
                     .articleId(articleId)
                     .categoryId(categoryId)
                     .build();

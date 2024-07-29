@@ -1,7 +1,6 @@
 package org.leocoder.codehub.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -83,20 +82,8 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
         LocalDate startDate = findTagPageListReqVO.getStartDate();
         LocalDate endDate = findTagPageListReqVO.getEndDate();
 
-        // 分页对象(查询第几页、每页多少数据)
-        Page<Tag> page = new Page<>(pageNum, pageSize);
-
         // 构建查询条件
-        LambdaUpdateWrapper<Tag> wrapper = new LambdaUpdateWrapper<>();
-        // 名称模糊查询
-        wrapper.like(Tag::getName, name)
-                // 大于等于创建时间
-                .ge(Objects.nonNull(startDate), Tag::getCreateTime, startDate)
-                // 小于等于创建时间
-                .le(Objects.nonNull(endDate), Tag::getCreateTime, endDate)
-                .orderByDesc(Tag::getCreateTime);
-
-        Page<Tag> tagPage = baseMapper.selectPage(page, wrapper);
+        Page<Tag> tagPage = baseMapper.selectPageList(pageNum, pageSize, name, startDate, endDate);
         List<Tag> tagList = tagPage.getRecords();
 
         // 转换对象
@@ -121,7 +108,7 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
         // 校验该分类下是否已经有文章，若有，则提示需要先删除分类下所有文章，才能删除
         ArticleTagRel articleTagRel = articleTagRelMapper.selectOneByTagId(tagId);
 
-        if (Objects.nonNull(articleTagRel)){
+        if (Objects.nonNull(articleTagRel)) {
             log.warn("==> 此标签下包含文章，无法删除，tagId: {}", tagId);
             throw new BizException(HttpStatusEnum.CATEGORY_CAN_NOT_DELETE_TAG);
         }
@@ -146,7 +133,7 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
         // 构建查询条件
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(Tag::getName, key)
-               .orderByDesc(Tag::getCreateTime);
+                .orderByDesc(Tag::getCreateTime);
 
         // 查询标签列表
         List<Tag> tagList = baseMapper.selectList(wrapper);
@@ -177,7 +164,7 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, Tag> implements 
         // 封装分类 Select 下拉列表数据
         List<SelectRspVO> selectTagList = null;
         if (tagList != null && !tagList.isEmpty()) {
-            selectTagList =  tagList.stream()
+            selectTagList = tagList.stream()
                     .map(tag -> SelectRspVO.builder()
                             .label(tag.getName())
                             .value(tag.getId())

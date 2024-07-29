@@ -55,27 +55,14 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
     @Override
     public PageResponse getCategoryList(FindCategoryPageListReqVO findCategoryPageListReqVO) {
         // 获取分页数据
-        Long getPageNum = findCategoryPageListReqVO.getPageNum();
+        Long pageNum = findCategoryPageListReqVO.getPageNum();
         Long pageSize = findCategoryPageListReqVO.getPageSize();
-
-        // 分页对象(查询第几页、每页多少数据)
-        Page<Category> page = new Page<>(getPageNum, pageSize);
-
-        // 构建查询条件
-        LambdaUpdateWrapper<Category> wrapper = new LambdaUpdateWrapper<>();
         String name = findCategoryPageListReqVO.getName();
         LocalDate startDate = findCategoryPageListReqVO.getStartDate();
         LocalDate endDate = findCategoryPageListReqVO.getEndDate();
-        // 名称模糊查询
-        wrapper.like(Category::getName, name)
-                // 大于等于 startDate
-                .ge(Objects.nonNull(startDate), Category::getCreateTime, startDate)
-                // 小于等于 endDate
-                .le(Objects.nonNull(endDate), Category::getCreateTime, endDate)
-                .orderByDesc(Category::getCreateTime);
 
-        // 查询分页数据
-        Page<Category> categoryPage = baseMapper.selectPage(page, wrapper);
+        // 封装查询条件
+        Page<Category> categoryPage = baseMapper.selectPageList(pageNum,pageSize,name,startDate,endDate);
         List<Category> categoryList = categoryPage.getRecords();
 
         // 封装分页数据
