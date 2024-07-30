@@ -25,7 +25,7 @@ public class FindIndexArticlePageListRspVO {
     private Long id;
     private String cover;
     private String title;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     private String summary;
     /**
