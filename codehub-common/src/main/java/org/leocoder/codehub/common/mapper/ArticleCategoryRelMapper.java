@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.leocoder.codehub.common.model.domain.ArticleCategoryRel;
 
+import java.util.List;
+
 /**
  * @author : Leo
  * @version 1.0
@@ -41,7 +43,7 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRel>
     /**
      * 根据分类ID 查询
      *
-     * @param categoryId  分类ID
+     * @param categoryId 分类ID
      * @return 文章分类关系
      */
     default ArticleCategoryRel selectOneByCategoryId(Long categoryId) {
@@ -50,5 +52,18 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRel>
                 .eq(ArticleCategoryRel::getCategoryId, categoryId)
                 .last("LIMIT 1");
         return this.selectOne(wrapper);
+    }
+
+
+    /**
+     * 根据分类ID 查询 文章分类关系列表
+     *
+     * @param categoryId 分类ID
+     * @return 文章分类关系列表
+     */
+    default List<ArticleCategoryRel> selectListByCategoryId(Long categoryId) {
+        LambdaQueryWrapper<ArticleCategoryRel> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ArticleCategoryRel::getCategoryId, categoryId);
+        return this.selectList(wrapper);
     }
 }

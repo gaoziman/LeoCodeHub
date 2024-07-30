@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.leocoder.codehub.common.model.domain.Article;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,13 +36,30 @@ public interface ArticleMapper extends BaseMapper<Article> {
         // 构建查询条件
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
         // 名称模糊查询
-        wrapper.like(Objects.nonNull(title),Article::getTitle, title)
+        wrapper.like(Objects.nonNull(title), Article::getTitle, title)
                 // 大于等于 startDate
                 .ge(Objects.nonNull(startDate), Article::getCreateTime, startDate)
                 // 小于等于 endDate
                 .le(Objects.nonNull(endDate), Article::getCreateTime, endDate)
                 .orderByDesc(Article::getCreateTime);
 
+        return this.selectPage(page, wrapper);
+    }
+
+
+    /**
+     * 根据文章id列表查询文章列表
+     * @param pageNum  页码
+     * @param pageSize 每页条数
+     * @param articleIds 文章id列表
+     * @return 分页对象
+     */
+    default Page<Article> selectPageListByArticleIds(Long pageNum, Long pageSize, List<Long> articleIds) {
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        wrapper
+                .in(Article::getId, articleIds)
+                .orderByDesc(Article::getCreateTime);
         return this.selectPage(page, wrapper);
     }
 }

@@ -3,6 +3,7 @@ package org.leocoder.codehub.web.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.leocoder.codehub.common.model.domain.Category;
 import org.leocoder.codehub.common.utils.Result;
+import org.leocoder.codehub.web.model.vo.category.FindCategoryArticlePageListReqVO;
 
 /**
  * @author : Leo
@@ -18,5 +19,14 @@ public interface CategoryService extends IService<Category> {
      * @return Result
      */
     Result findCategoryList();
+
+
+    /**
+     * 获取分类下文章分页数据
+     *
+     * @param findCategoryArticlePageListReqVO 分类下文章分页请求参数
+     * @return Result
+     */
+    Result findCategoryArticlePageList(FindCategoryArticlePageListReqVO findCategoryArticlePageListReqVO);
 
 }
