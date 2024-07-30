@@ -1,6 +1,6 @@
 package org.leocoder.codehub.common.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.leocoder.codehub.common.model.domain.Article;
@@ -33,9 +33,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
         Page<Article> page = new Page<>(pageNum, pageSize);
 
         // 构建查询条件
-        LambdaUpdateWrapper<Article> wrapper = new LambdaUpdateWrapper<>();
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
         // 名称模糊查询
-        wrapper.like(Article::getTitle, title)
+        wrapper.like(Objects.nonNull(title),Article::getTitle, title)
                 // 大于等于 startDate
                 .ge(Objects.nonNull(startDate), Article::getCreateTime, startDate)
                 // 小于等于 endDate

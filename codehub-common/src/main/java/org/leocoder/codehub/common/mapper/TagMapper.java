@@ -1,6 +1,6 @@
 package org.leocoder.codehub.common.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.leocoder.codehub.common.model.domain.Tag;
@@ -32,7 +32,7 @@ public interface TagMapper extends BaseMapper<Tag> {
         Page<Tag> page = new Page<>(pageNum, pageSize);
 
         // 构建查询条件
-        LambdaUpdateWrapper<Tag> wrapper = new LambdaUpdateWrapper<>();
+        LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
         // 名称模糊查询
         wrapper.like(Tag::getName, name)
                 // 大于等于 startDate
