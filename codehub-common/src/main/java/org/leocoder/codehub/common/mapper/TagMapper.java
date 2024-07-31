@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.leocoder.codehub.common.model.domain.Tag;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @param name      标签名称
      * @param startDate 开始日期
      * @param endDate   结束日期
-     * @return  分页对象
+     * @return 分页对象
      */
     default Page<Tag> selectPageList(Long pageNum, Long pageSize, String name, LocalDate startDate, LocalDate endDate) {
         // 分页对象(查询第几页、每页多少数据)
@@ -42,5 +43,19 @@ public interface TagMapper extends BaseMapper<Tag> {
                 .orderByDesc(Tag::getCreateTime);
 
         return this.selectPage(page, wrapper);
+    }
+
+
+    /**
+     * 根据 id 列表查询标签列表
+     *
+     * @param tagIds id 列表
+     * @return 标签列表
+     */
+    default List<Tag> selectByIds(List<Long> tagIds) {
+        // 构建查询条件
+        LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
+        tagWrapper.in(Tag::getId, tagIds);
+        return this.selectList(tagWrapper);
     }
 }

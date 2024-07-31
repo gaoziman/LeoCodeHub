@@ -4,20 +4,29 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.leocoder.codehub.admin.event.ReadArticleEvent;
+import org.leocoder.codehub.common.enums.HttpStatusEnum;
+import org.leocoder.codehub.common.exception.BizException;
 import org.leocoder.codehub.common.mapper.*;
 import org.leocoder.codehub.common.model.domain.*;
 import org.leocoder.codehub.common.utils.PageResponse;
+import org.leocoder.codehub.common.utils.Result;
 import org.leocoder.codehub.web.model.vo.FindIndexArticlePageListReqVO;
 import org.leocoder.codehub.web.model.vo.article.FindIndexArticlePageListRspVO;
+import org.leocoder.codehub.web.model.vo.article.detail.FindArticleDetailReqVO;
+import org.leocoder.codehub.web.model.vo.article.detail.FindArticleDetailRspVO;
+import org.leocoder.codehub.web.model.vo.article.detail.FindPreNextArticleRspVO;
 import org.leocoder.codehub.web.model.vo.category.FindCategoryListRspVO;
 import org.leocoder.codehub.web.model.vo.tag.FindTagListRspVO;
 import org.leocoder.codehub.web.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -50,6 +59,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleTagRelMapper articleTagRelMapper;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
 
     /**
@@ -143,5 +155,80 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }).collect(Collectors.toList());
 
         return PageResponse.success(articlePage, vos);
+    }
+
+
+    /**
+     * 获取文章详情
+     *
+     * @param findArticleDetailReqVO 文章详情查询条件
+     * @return 文章详情
+     */
+    @Override
+    public Result findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO) {
+        // 获取数据
+        Long articleId = findArticleDetailReqVO.getArticleId();
+
+        Article article = articleMapper.selectById(articleId);
+
+        // 判断文章是否存在
+        if (Objects.isNull(article)) {
+            log.warn("==> 该文章不存在, articleId: {}", articleId);
+            throw new BizException(HttpStatusEnum.ARTICLE_NOT_FOUND);
+        }
+
+
+        // 查询正文内容
+        ArticleContent articleContent = articleContentMapper.selectById(articleId);
+
+        // 转换对象
+        FindArticleDetailRspVO vo = FindArticleDetailRspVO.builder()
+                .title(article.getTitle())
+                .content(articleContent.getContent())
+                .createTime(article.getCreateTime())
+                // 被阅读的次数
+                .readNum(article.getReadNum())
+                .build();
+
+        // 查询分类
+        ArticleCategoryRel articleCategoryRel = articleCategoryRelMapper.selectByArticleId(articleId);
+        Category category = categoryMapper.selectById(articleCategoryRel.getCategoryId());
+        vo.setCategoryId(category.getId());
+        vo.setCategoryName(category.getName());
+        
+        // 查询标签
+        List<ArticleTagRel> articleTagRelList = articleTagRelMapper.selectByArticleId(articleId);
+        List<Long> tagIds = articleTagRelList.stream().map(ArticleTagRel::getTagId).collect(Collectors.toList());
+        List<Tag> tagList = tagMapper.selectByIds(tagIds);
+
+        // 转换对象
+        List<FindTagListRspVO> tagListRsp = tagList.stream().map(tag -> FindTagListRspVO.builder()
+                .id(tag.getId())
+                .name(tag.getName())
+                .build()).collect(Collectors.toList());
+        vo.setTags(tagListRsp);
+
+        // 上一篇文章
+        Article preArticle = articleMapper.selectPreArticle(articleId);
+        // 转换对象
+        FindPreNextArticleRspVO preNextArticleRspVO = FindPreNextArticleRspVO.builder()
+                .articleId(preArticle.getId())
+                .articleTitle(preArticle.getTitle())
+                .build();
+        vo.setPreArticle(preNextArticleRspVO);
+
+        // 下一篇文章
+        Article nextArticle = articleMapper.selectNextArticle(articleId);
+        // 转换对象
+        FindPreNextArticleRspVO NextArticleRspVO = FindPreNextArticleRspVO.builder()
+                .articleId(nextArticle.getId())
+                .articleTitle(nextArticle.getTitle())
+                .build();
+        vo.setPreArticle(NextArticleRspVO);
+
+        // 阅读次数+1
+        eventPublisher.publishEvent(new ReadArticleEvent(this, articleId));
+
+        return Result.success(vo);
     }
 }

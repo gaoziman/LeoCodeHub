@@ -1,6 +1,7 @@
 package org.leocoder.codehub.common.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.leocoder.codehub.common.model.domain.Article;
@@ -49,8 +50,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
      * 根据文章id列表查询文章列表
-     * @param pageNum  页码
-     * @param pageSize 每页条数
+     *
+     * @param pageNum    页码
+     * @param pageSize   每页条数
      * @param articleIds 文章id列表
      * @return 分页对象
      */
@@ -61,5 +63,56 @@ public interface ArticleMapper extends BaseMapper<Article> {
                 .in(Article::getId, articleIds)
                 .orderByDesc(Article::getCreateTime);
         return this.selectPage(page, wrapper);
+    }
+
+    /**
+     * 根据文章id查询上一篇文章
+     *
+     * @param articleId 文章id
+     * @return 文章
+     */
+    default Article selectPreArticle(Long articleId) {
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        // id进行升序排列
+        wrapper.orderByAsc(Article::getId)
+                // 查询比当前文章 ID 大的
+                .ge(Article::getId, articleId)
+                // 第一条记录即为上一篇文章
+                .last("limit 1");
+        return this.selectOne(wrapper);
+    }
+
+
+    /**
+     * 根据文章id查询下一篇文章
+     *
+     * @param articleId 文章id
+     * @return 文章
+     */
+    default Article selectNextArticle(Long articleId) {
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        // id进行降序排列
+        wrapper.orderByDesc(Article::getId)
+                // 查询比当前文章 ID 小的
+                .le(Article::getId, articleId)
+                // 第一条记录即为下一篇文章
+                .last("limit 1");
+        return this.selectOne(wrapper);
+    }
+
+
+    /**
+     * 阅读量+1
+     *
+     * @param articleId 文章id
+     * @return 影响行数
+     */
+    default int increaseReadNum(Long articleId) {
+        // 执行 SQL : UPDATE t_article SET read_num = read_num + 1 WHERE (id = XX)
+        LambdaUpdateWrapper<Article> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.setSql("read_num = read_num + 1")
+                .eq(Article::getId, articleId);
+
+        return this.update(null, updateWrapper);
     }
 }
